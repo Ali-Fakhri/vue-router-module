@@ -1,32 +1,25 @@
 import Vue from 'vue';
 import VueRotuer from 'vue-router';
 
-import HomePage from './views/HomePage.vue';
-import UserPage from './views/UserPage.vue';
-import UserStart from './components/UserStart.vue';
-import UserDetails from './components/UserDetails.vue';
-import UserEdit from './components/UserEdit.vue';
-import NotFound from './views/NotFound.vue';
-
 Vue.use(VueRotuer);
 
 const router = new VueRotuer({
     routes: [
         {
-            path: '/', component: HomePage, beforeEnter: (to, from, next) => {
+            path: '/', component: () => import('./views/HomePage.vue'), beforeEnter: (to, from, next) => {
                 console.log('before entering Home Page');
                 next();
             },
         },
         {
-            path: '/user', component: UserPage, children: [
-                { path: '', component: UserStart },
-                { path: ':id', component: UserDetails },
-                { path: ':id/edit', component: UserEdit },
+            path: '/user', component: () => import('./views/UserPage.vue'), children: [
+                { path: '', component: () => import('./components/UserStart.vue') },
+                { path: ':id', component: () => import('./components/UserDetails.vue') },
+                { path: ':id/edit', component: () => import('./components/UserEdit.vue') },
             ]
         },
         { path: '/redirect', redirect: '/' },
-        { path: '*', component: NotFound }
+        { path: '*', component: () => import('./views/NotFound.vue') }
     ],
     mode: 'history'
 });
