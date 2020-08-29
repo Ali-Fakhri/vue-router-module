@@ -12,7 +12,12 @@ Vue.use(VueRotuer);
 
 const router = new VueRotuer({
     routes: [
-        { path: '/', component: HomePage },
+        {
+            path: '/', component: HomePage, beforeEnter: (to, from, next) => {
+                console.log('before entering Home Page');
+                next();
+            },
+        },
         {
             path: '/user', component: UserPage, children: [
                 { path: '', component: UserStart },
@@ -24,6 +29,11 @@ const router = new VueRotuer({
         { path: '*', component: NotFound }
     ],
     mode: 'history'
+});
+
+router.beforeEach((to, from, next) => {
+    console.log('Logged From Global Before Each');
+    next();
 });
 
 export default router;

@@ -7,7 +7,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+  beforeRouteLeave(to, from, next) {
+    console.log("Logged Before Leaving the Route");
+    next();
+  },
+};
 </script>
 
 <style>
